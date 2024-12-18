@@ -1,0 +1,23 @@
+config:
+  target: 'http://localhost:3001'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+scenarios:
+  - flow:
+      - post:
+          url: "/api/auth"
+          json:
+            username: "admin"
+            password: "admin"
+      - get:
+          url: "/api/data"
+  - engine: "ws"
+    flow:
+      - function: "connect"
+      - send: { text: "Hello WebSocket" }
+      - think: 1
+      - send: { text: "Another message" }
+      - think: 1
+      - function: "disconnect"
+
